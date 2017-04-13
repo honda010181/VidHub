@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
 namespace VidHub.Controllers
 {
+    [Authorize(Roles = "Administrators")]
     public class AdminController : Controller
     {
         // GET: Admin

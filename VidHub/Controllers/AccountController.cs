@@ -18,8 +18,14 @@ namespace VidHub.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                return View("Error", new string[] { "Access Denied" });
+            }
+ 
             ViewBag.returnUrl = returnUrl;
             return View();
+ 
         }
 
         [HttpPost]
@@ -39,10 +45,26 @@ namespace VidHub.Controllers
                     ClaimsIdentity ident = await UserManager.CreateIdentityAsync(user , DefaultAuthenticationTypes.ApplicationCookie);
                     AuthManager.SignOut();
                     AuthManager.SignIn(new AuthenticationProperties {IsPersistent = false} , ident);
-                    return Redirect(returnUrl);
+
+
+                    if (UserManager.IsInRole(user.Id, "Administrators"))
+                    {
+                        return Redirect("~/Admin");
+                    }
+                    else
+                    {
+                        return Redirect(returnUrl);
+                    }
+
                 }
             }
             return View(details);
+        }
+        [Authorize]
+        public ActionResult Logout()
+        {
+            AuthManager.SignOut();
+            return RedirectToAction("Index","Home");
         }
         private IAuthenticationManager AuthManager
         {

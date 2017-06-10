@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using VidHub.Models;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -8,6 +9,8 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/CustomBootstrap.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
     <style>
         .custom-navbar-color {
             background-color: beige;
@@ -15,12 +18,29 @@
         .custom-body-padding {
             padding-top:50px;
         }
+        .custom-section-padding {
+            padding-top:50px;
+        }
+        .scrolling {
+        white-space: nowrap;
+        word-spacing: -3px;
+        letter-spacing: -3px;
+        }
+        .custom-image-cell {
+        margin:5px; 
+        padding:5px;
+        }
+        .custom-image-size {
+            width:100px;
+            height:150px;
+        }
     </style>
 
 
 </head>
 <body id="Body" class="container">
- 
+
+    <div class="row">
         <div id="NavigationBar" class="container container-fluid navbar-inverse navbar-fixed-top custom-navbar-color">
             <div class="container">
                 <div class="navbar-header">
@@ -36,16 +56,63 @@
                 </div>
             </div>
         </div>
- 
- 
-        <div class="container container-fluid body-content custom-body-padding ">
-            @RenderBody()
+    </div> 
+
+    <div class="row custom-body-padding">
+        <div class="container">
+            @foreach (string movie in @ViewBag.FeatureMovieList)
+            {
+                <div class="col-sm-1 custom-image-cell">
+                    @*//To show image by looping string, the image path needs to wrap in @url.Content(@variablePath)*@
+                    <img src="@Url.Content(@movie.ToString())" alt="IMAGES" class="custom-image-size" />
+                </div>
+
+            }
         </div>
+    </div>
+ 
+    <div class="row  custom-body-padding ">
+        <div class="col-sm-9">
+                @RenderBody()
+        </div>
+        <div class="col-sm-3">
+            <div id="logIn">
+                @*need to add ViewDataDicitonay() becuase cannot pass null object into strongly typed view. It's just there to avoid error*@
+                @*@Html.Partial("Login", new ViewDataDictionary());*@ 
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <p>
+                        Authenticated User
+                    </p>
+                }
+                else
+                {
+                    <label style="color:red">
+                        @ViewBag.InvalidLoginInfo
+                    </label>
+                    @Html.Partial("Login", new VidHub.Models.LoginModel());                     
+                }                
+            </div>
+            
+        </div>
+    </div>
+
  
     <footer>
-        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        <p>Vid Hub All your favarites in one place.</p>
     </footer>
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+ 
+
+
 </body>
 </html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#logIn").change(function () {
+            var categoryId = $("#ddlCategory").val();
+            $("#logIn").load('@(Url.Action("GetCategoryProducts","Home",null, Request.Url.Scheme))?categoryId=');
+        });
+    });
+</script> 

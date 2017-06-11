@@ -1,0 +1,32 @@
+﻿.custom-navbar-color {
+    background-color: beige;
+}
+.custom-body-padding {
+    padding-top:50px;
+}
+.custom-section-padding {
+padding-top:50px;
+}
+.scrolling {
+    white-space: nowrap;
+    word-spacing: -3px;
+    letter-spacing: -3px;
+}
+.custom-image-cell {
+    margin:5px; 
+    /*padding:5px;*/
+}
+.custom-image-size {
+    width:100px;
+    height:150px;
+}
+
+/*Hover image effects the name is the name of the class being used*/
+.custom-image-cell:hover {
+	padding-top: 3px;
+}
+
+.custom-tooltip{
+  font-family: Georgia;
+  font-size: 10px;
+}

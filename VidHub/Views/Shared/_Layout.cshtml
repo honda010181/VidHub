@@ -7,37 +7,11 @@
     <title>@ViewBag.Title Vid Hub</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/CustomBootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Custom.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <script src="~/Scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
-    <style>
-        .custom-navbar-color {
-            background-color: beige;
-        }
-        .custom-body-padding {
-            padding-top:50px;
-        }
-        .custom-section-padding {
-            padding-top:50px;
-        }
-        .scrolling {
-        white-space: nowrap;
-        word-spacing: -3px;
-        letter-spacing: -3px;
-        }
-        .custom-image-cell {
-        margin:5px; 
-        padding:5px;
-        }
-        .custom-image-size {
-            width:100px;
-            height:150px;
-        }
-    </style>
-
-
-</head>
+ </head>
 <body id="Body" class="container">
 
     <div class="row">
@@ -57,16 +31,15 @@
             </div>
         </div>
     </div> 
-
+ 
     <div class="row custom-body-padding">
         <div class="container">
             @foreach (string movie in @ViewBag.FeatureMovieList)
             {
                 <div class="col-sm-1 custom-image-cell">
                     @*//To show image by looping string, the image path needs to wrap in @url.Content(@variablePath)*@
-                    <img src="@Url.Content(@movie.ToString())" alt="IMAGES" class="custom-image-size" />
+                    <img src="@Url.Content(@movie.ToString())" alt="IMAGES" class="custom-image-size" data-toggle="custom-tooltip" title="Click to watch" />
                 </div>
-
             }
         </div>
     </div>
@@ -108,11 +81,14 @@
 
 </body>
 </html>
-<script type="text/javascript">
+@*This script is used for the popups when hover*@
+<script>
     $(document).ready(function () {
-        $("#logIn").change(function () {
-            var categoryId = $("#ddlCategory").val();
-            $("#logIn").load('@(Url.Action("GetCategoryProducts","Home",null, Request.Url.Scheme))?categoryId=');
-        });
+        $('[data-toggle="popover"]').popover();
     });
-</script> 
+</script>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="custom-tooltip"]').tooltip();
+    });
+</script>

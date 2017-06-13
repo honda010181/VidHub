@@ -34,11 +34,11 @@
  
     <div class="row custom-body-padding">
         <div class="container">
-            @foreach (string movie in @ViewBag.FeatureMovieList)
+            @foreach (Movie movie in @ViewBag.FeatureMovieList)
             {
-                <div class="col-sm-1 custom-image-cell">
+                <div class="col-sm-1">
                     @*//To show image by looping string, the image path needs to wrap in @url.Content(@variablePath)*@
-                    <img src="@Url.Content(@movie.ToString())" alt="IMAGES" class="custom-image-size" data-toggle="custom-tooltip" title="Click to watch" />
+                    <img src="@Url.Content(@movie.PosterPath)" alt="IMAGES" class="custom-image-size custom-image-cell" data-html="true" data-toggle="custom-tooltip" data-placement="right" title="@Url.Content(@movie.Title)" />
                 </div>
             }
         </div>

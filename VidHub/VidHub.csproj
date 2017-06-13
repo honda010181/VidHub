@@ -199,8 +199,8 @@
     <Compile Include="Infrastructure\IdentityHelpers.cs" />
     <Compile Include="Models\AppRole.cs" />
     <Compile Include="Models\AppUserModels.cs" />
+    <Compile Include="Models\MovieModels.cs" />
     <Compile Include="Models\ReferencingModel.cs" />
-    <Compile Include="Models\Test.cs" />
     <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

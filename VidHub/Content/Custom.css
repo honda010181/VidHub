@@ -23,10 +23,18 @@ padding-top:50px;
 
 /*Hover image effects the name is the name of the class being used*/
 .custom-image-cell:hover {
-	padding-top: 3px;
+	/*padding-top: 3px;*/
+    border:solid thin;
+    color:red;
 }
 
-.custom-tooltip{
-  font-family: Georgia;
-  font-size: 10px;
+/*Formating tooltip appearence. Starting with class*/
+.custom-image-cell + .tooltip > .tooltip-inner {
+    background-color: beige; 
+    color: black; 
+    height:20px;
+    border: 1px solid;
+    font-size: 10px;
+    display:inline-flex;
+    /*display: inline-block;*/
 }

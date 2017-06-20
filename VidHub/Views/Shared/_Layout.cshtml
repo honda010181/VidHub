@@ -1,4 +1,5 @@
 ﻿@using VidHub.Models;
+@using VidHub.Infrastructure;
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,11 +35,11 @@
  
     <div class="row custom-body-padding">
         <div class="container">
-            @foreach (Movie movie in @ViewBag.FeatureMovieList)
+            @foreach (MOVIE movie in @ViewBag.FeatureMovieList)
             {
                 <div class="col-sm-1">
                     @*//To show image by looping string, the image path needs to wrap in @url.Content(@variablePath)*@
-                    <img src="@Url.Content(@movie.PosterPath)" alt="IMAGES" class="custom-image-size custom-image-cell" data-html="true" data-toggle="custom-tooltip" data-placement="right" title="@Url.Content(@movie.Title)" />
+                    <img src="@Url.Content(@movie.MOVIE_POSTER_PATH)" alt="IMAGES" class="custom-image-size custom-image-cell" data-html="true" data-toggle="custom-tooltip" data-placement="right" title="@Url.Content(@movie.TITLE)" />
                 </div>
             }
         </div>

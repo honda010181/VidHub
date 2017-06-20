@@ -4,11 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Security.Principal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using System.Threading.Tasks;
 using VidHub.Models;
 using Microsoft.Owin.Security;
@@ -16,7 +11,10 @@ using System.Security.Claims;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using VidHub.Infrastructure;
-using VidHub.Models;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Core.Objects;
+using System.Linq;
 namespace VidHub.Controllers
 {
     public class HomeController : Controller
@@ -25,11 +23,12 @@ namespace VidHub.Controllers
         //[Authorize]
         public ActionResult Index()
         {
- 
-            return View(GetData("Index"));
- 
-        }
 
+            return View(GetData("Index"));
+            
+        }
+ 
+    
         //[Authorize(Roles="Users")]
         public ActionResult OtherAction()
         {

@@ -19,13 +19,14 @@ padding-top:50px;
 .custom-image-size {
     width:100px;
     height:150px;
+    padding:5px;
 }
 
 /*Hover image effects the name is the name of the class being used*/
 .custom-image-cell:hover {
 	/*padding-top: 3px;*/
     border:solid thin;
-    color:red;
+    /*color:red;*/
 }
 
 /*Formating tooltip appearence. Starting with class*/

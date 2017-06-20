@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="IdentityDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="MOVIE">
+          <Key>
+            <PropertyRef Name="MOVIE_ID" />
+          </Key>
+          <Property Name="MOVIE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TITLE" Type="nvarchar" MaxLength="255" />
+          <Property Name="MOVIE_POSTER_PATH" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="MOVIE_LINK">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="MOVIE_ID" Type="int" />
+          <Property Name="SOURCE_WEB_SITE_ID" Type="int" />
+          <Property Name="PATH" Type="nvarchar" MaxLength="500" />
+          <Property Name="PATH_TYPE_ID" Type="int" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PATH_TYPE">
+          <Key>
+            <PropertyRef Name="PATH_ID" />
+          </Key>
+          <Property Name="PATH_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PATH_TYPE" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="WEB_SITE">
+          <Key>
+            <PropertyRef Name="WEB_SITE_ID" />
+          </Key>
+          <Property Name="WEB_SITE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WEB_SITE_NAME" Type="nvarchar" MaxLength="255" />
+          <Property Name="WEB_URL" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="PK_MOVIE_LINK_TO_MOVIE">
+          <End Role="MOVIE" Type="Self.MOVIE" Multiplicity="0..1" />
+          <End Role="MOVIE_LINK" Type="Self.MOVIE_LINK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MOVIE">
+              <PropertyRef Name="MOVIE_ID" />
+            </Principal>
+            <Dependent Role="MOVIE_LINK">
+              <PropertyRef Name="MOVIE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK_MOVIE_LINK_TO_PATH_TYPE">
+          <End Role="PATH_TYPE" Type="Self.PATH_TYPE" Multiplicity="0..1" />
+          <End Role="MOVIE_LINK" Type="Self.MOVIE_LINK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PATH_TYPE">
+              <PropertyRef Name="PATH_ID" />
+            </Principal>
+            <Dependent Role="MOVIE_LINK">
+              <PropertyRef Name="PATH_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK_MOVIE_LINK_TO_WEB_SITE">
+          <End Role="WEB_SITE" Type="Self.WEB_SITE" Multiplicity="0..1" />
+          <End Role="MOVIE_LINK" Type="Self.MOVIE_LINK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WEB_SITE">
+              <PropertyRef Name="WEB_SITE_ID" />
+            </Principal>
+            <Dependent Role="MOVIE_LINK">
+              <PropertyRef Name="SOURCE_WEB_SITE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="IdentityDbModelStoreContainer">
+          <EntitySet Name="MOVIE" EntityType="Self.MOVIE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MOVIE_LINK" EntityType="Self.MOVIE_LINK" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PATH_TYPE" EntityType="Self.PATH_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WEB_SITE" EntityType="Self.WEB_SITE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="PK_MOVIE_LINK_TO_MOVIE" Association="Self.PK_MOVIE_LINK_TO_MOVIE">
+            <End Role="MOVIE" EntitySet="MOVIE" />
+            <End Role="MOVIE_LINK" EntitySet="MOVIE_LINK" />
+          </AssociationSet>
+          <AssociationSet Name="PK_MOVIE_LINK_TO_PATH_TYPE" Association="Self.PK_MOVIE_LINK_TO_PATH_TYPE">
+            <End Role="PATH_TYPE" EntitySet="PATH_TYPE" />
+            <End Role="MOVIE_LINK" EntitySet="MOVIE_LINK" />
+          </AssociationSet>
+          <AssociationSet Name="PK_MOVIE_LINK_TO_WEB_SITE" Association="Self.PK_MOVIE_LINK_TO_WEB_SITE">
+            <End Role="WEB_SITE" EntitySet="WEB_SITE" />
+            <End Role="MOVIE_LINK" EntitySet="MOVIE_LINK" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IdentityDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="MOVIE">
+          <Key>
+            <PropertyRef Name="MOVIE_ID" />
+          </Key>
+          <Property Name="MOVIE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TITLE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MOVIE_LINK" Relationship="IdentityDbModel.PK_MOVIE_LINK_TO_MOVIE" FromRole="MOVIE" ToRole="MOVIE_LINK" />
+          <Property Name="MOVIE_POSTER_PATH" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PATH_TYPE">
+          <Key>
+            <PropertyRef Name="PATH_ID" />
+          </Key>
+          <Property Name="PATH_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PATH_TYPE1" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MOVIE_LINK" Relationship="IdentityDbModel.PK_MOVIE_LINK_TO_PATH_TYPE" FromRole="PATH_TYPE" ToRole="MOVIE_LINK" />
+        </EntityType>
+        <EntityType Name="WEB_SITE">
+          <Key>
+            <PropertyRef Name="WEB_SITE_ID" />
+          </Key>
+          <Property Name="WEB_SITE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WEB_SITE_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="WEB_URL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MOVIE_LINK" Relationship="IdentityDbModel.PK_MOVIE_LINK_TO_WEB_SITE" FromRole="WEB_SITE" ToRole="MOVIE_LINK" />
+        </EntityType>
+        <EntityContainer Name="MovieDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MOVIEs" EntityType="Self.MOVIE" />
+          <EntitySet Name="PATH_TYPE" EntityType="Self.PATH_TYPE" />
+          <EntitySet Name="WEB_SITE" EntityType="Self.WEB_SITE" />
+          <EntitySet Name="MOVIE_LINK" EntityType="IdentityDbModel.MOVIE_LINK" />
+          <AssociationSet Name="PK_MOVIE_LINK_TO_MOVIE" Association="IdentityDbModel.PK_MOVIE_LINK_TO_MOVIE">
+            <End Role="MOVIE" EntitySet="MOVIEs" />
+            <End Role="MOVIE_LINK" EntitySet="MOVIE_LINK" />
+          </AssociationSet>
+          <AssociationSet Name="PK_MOVIE_LINK_TO_PATH_TYPE" Association="IdentityDbModel.PK_MOVIE_LINK_TO_PATH_TYPE">
+            <End Role="PATH_TYPE" EntitySet="PATH_TYPE" />
+            <End Role="MOVIE_LINK" EntitySet="MOVIE_LINK" />
+          </AssociationSet>
+          <AssociationSet Name="PK_MOVIE_LINK_TO_WEB_SITE" Association="IdentityDbModel.PK_MOVIE_LINK_TO_WEB_SITE">
+            <End Role="WEB_SITE" EntitySet="WEB_SITE" />
+            <End Role="MOVIE_LINK" EntitySet="MOVIE_LINK" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="MOVIE_LINK">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="MOVIE_ID" Type="Int32" />
+          <Property Name="SOURCE_WEB_SITE_ID" Type="Int32" />
+          <Property Name="PATH" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PATH_TYPE_ID" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="MOVIE" Relationship="IdentityDbModel.PK_MOVIE_LINK_TO_MOVIE" FromRole="MOVIE_LINK" ToRole="MOVIE" />
+          <NavigationProperty Name="PATH_TYPE" Relationship="IdentityDbModel.PK_MOVIE_LINK_TO_PATH_TYPE" FromRole="MOVIE_LINK" ToRole="PATH_TYPE" />
+          <NavigationProperty Name="WEB_SITE" Relationship="IdentityDbModel.PK_MOVIE_LINK_TO_WEB_SITE" FromRole="MOVIE_LINK" ToRole="WEB_SITE" />
+        </EntityType>
+        <Association Name="PK_MOVIE_LINK_TO_MOVIE">
+          <End Type="IdentityDbModel.MOVIE" Role="MOVIE" Multiplicity="0..1" />
+          <End Type="IdentityDbModel.MOVIE_LINK" Role="MOVIE_LINK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MOVIE">
+              <PropertyRef Name="MOVIE_ID" />
+            </Principal>
+            <Dependent Role="MOVIE_LINK">
+              <PropertyRef Name="MOVIE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK_MOVIE_LINK_TO_PATH_TYPE">
+          <End Type="IdentityDbModel.PATH_TYPE" Role="PATH_TYPE" Multiplicity="0..1" />
+          <End Type="IdentityDbModel.MOVIE_LINK" Role="MOVIE_LINK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PATH_TYPE">
+              <PropertyRef Name="PATH_ID" />
+            </Principal>
+            <Dependent Role="MOVIE_LINK">
+              <PropertyRef Name="PATH_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK_MOVIE_LINK_TO_WEB_SITE">
+          <End Type="IdentityDbModel.WEB_SITE" Role="WEB_SITE" Multiplicity="0..1" />
+          <End Type="IdentityDbModel.MOVIE_LINK" Role="MOVIE_LINK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WEB_SITE">
+              <PropertyRef Name="WEB_SITE_ID" />
+            </Principal>
+            <Dependent Role="MOVIE_LINK">
+              <PropertyRef Name="SOURCE_WEB_SITE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="IdentityDbModelStoreContainer" CdmEntityContainer="MovieDbEntities">
+          <EntitySetMapping Name="MOVIEs">
+            <EntityTypeMapping TypeName="IdentityDbModel.MOVIE">
+              <MappingFragment StoreEntitySet="MOVIE">
+                <ScalarProperty Name="MOVIE_POSTER_PATH" ColumnName="MOVIE_POSTER_PATH" />
+                <ScalarProperty Name="MOVIE_ID" ColumnName="MOVIE_ID" />
+                <ScalarProperty Name="TITLE" ColumnName="TITLE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PATH_TYPE">
+            <EntityTypeMapping TypeName="IdentityDbModel.PATH_TYPE">
+              <MappingFragment StoreEntitySet="PATH_TYPE">
+                <ScalarProperty Name="PATH_ID" ColumnName="PATH_ID" />
+                <ScalarProperty Name="PATH_TYPE1" ColumnName="PATH_TYPE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WEB_SITE">
+            <EntityTypeMapping TypeName="IdentityDbModel.WEB_SITE">
+              <MappingFragment StoreEntitySet="WEB_SITE">
+                <ScalarProperty Name="WEB_SITE_ID" ColumnName="WEB_SITE_ID" />
+                <ScalarProperty Name="WEB_SITE_NAME" ColumnName="WEB_SITE_NAME" />
+                <ScalarProperty Name="WEB_URL" ColumnName="WEB_URL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MOVIE_LINK">
+            <EntityTypeMapping TypeName="IdentityDbModel.MOVIE_LINK">
+              <MappingFragment StoreEntitySet="MOVIE_LINK">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PATH_TYPE_ID" ColumnName="PATH_TYPE_ID" />
+                <ScalarProperty Name="PATH" ColumnName="PATH" />
+                <ScalarProperty Name="SOURCE_WEB_SITE_ID" ColumnName="SOURCE_WEB_SITE_ID" />
+                <ScalarProperty Name="MOVIE_ID" ColumnName="MOVIE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

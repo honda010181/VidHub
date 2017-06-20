@@ -3,6 +3,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using VidHub.Infrastructure;
+using System.Data.Entity.Core.Objects;
+using System.Linq;
 namespace Users
 {
     public class IdentityConfig

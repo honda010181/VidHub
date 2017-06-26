@@ -1,0 +1,65 @@
+﻿@model VidHub.Models.MovieInfo
+
+@{
+    ViewBag.Title = "MovieInfo";
+}
+
+<h2>Watch @Model.Title</h2>
+
+<div class="row">
+    <div class="col-sm-2">
+        <img src="@Url.Content(@Model.PosterPath)" alt="IMAGES" class="custom-image-size custom-image-cell" data-html="true" data-toggle="custom-tooltip" data-placement="right" />
+    </div>
+</div>
+
+
+<div class="row"> 
+    <div class="col-sm-2">
+        <p>Descriptions: </p>
+    </div>
+</div>
+
+<div class="row"> 
+    <div class="col-sm-2">
+        <p>Director: </p>
+        @foreach (var director in @Model.Directors)
+        {
+            <p class="list-inline">
+                @director
+            </p>
+        }
+    </div> 
+</div>
+ 
+<table class="table-striped" > 
+    <tr>
+        @{
+            int counter = 0;
+            int itemPerRow = 3;
+            foreach (var ml in @Model.MovieLinkInfo)
+            {
+
+                @*Cannot use anchor tag in tr element but it can be used in td*@
+                if (counter % itemPerRow == 0)
+                {
+                    @Html.Raw("<tr>");
+                    @Html.Raw("</tr>");            
+
+                }
+                <td style="padding:50px">
+                    <div class="custom-rounded-corner-cell">
+                        <a href="@Url.Content(@ml.MovieLink)" target="_blank"><img src="~/Images/PlayIcon.jpg" class="custom-play-icon" /> @ml.Website</a>
+                    </div>
+                    <div class="btn-group-sm">
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-thumbs-up"></span> Like</button>
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-thumbs-down"></span> Not Like</button>
+                    </div>
+                </td>
+                counter++;
+            }
+        }
+    </tr> 
+
+
+ 
+</table>

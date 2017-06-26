@@ -38,8 +38,11 @@
             @foreach (MOVIE movie in @ViewBag.FeatureMovieList)
             {
                 <div class="col-sm-1">
-                    @*//To show image by looping string, the image path needs to wrap in @url.Content(@variablePath)*@
-                    <img src="@Url.Content(@movie.MOVIE_POSTER_PATH)" alt="IMAGES" class="custom-image-size custom-image-cell" data-html="true" data-toggle="custom-tooltip" data-placement="right" title="@Url.Content(@movie.TITLE)" />
+                    
+                    <a href="@Url.Action("MovieInfo", "Movie",new{ MovieTitle =  @Url.Content(@movie.TITLE)})" >
+                        @*//To show image by looping string, the image path needs to wrap in @url.Content(@variablePath)*@
+                        <img src="@Url.Content(@movie.MOVIE_POSTER_PATH)" alt="IMAGES" class="custom-image-size custom-image-cell" data-html="true" data-toggle="custom-tooltip" data-placement="right" title="@Url.Content(@movie.TITLE)" onclick="" />
+                    </a>
                 </div>
             }
         </div>

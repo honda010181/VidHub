@@ -153,8 +153,10 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Images\Arival.jpg" />
     <Content Include="Images\Chucky.jpg" />
+    <Content Include="Images\Default.jpg" />
     <Content Include="Images\GuardianOfRussia.jpg" />
     <Content Include="Images\MoonLight.jpg" />
+    <Content Include="Images\PlayIcon.jpg" />
     <Content Include="Images\Recovery.jpg" />
     <Content Include="Images\SkyFall.jpg" />
     <Content Include="Images\StarWars.jpg" />
@@ -248,6 +250,7 @@
     </Compile>
     <Compile Include="Models\AppRole.cs" />
     <Compile Include="Models\AppUserModels.cs" />
+    <Compile Include="Models\MovieModels.cs" />
     <Compile Include="Models\ReferencingModel.cs" />
     <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -263,6 +266,7 @@
     <Content Include="Views\RoleAdmin\Create.cshtml" />
     <Content Include="Views\RoleAdmin\Edit.cshtml" />
     <Content Include="Views\Shared\Login.cshtml" />
+    <Content Include="Views\Movie\MovieInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -272,7 +276,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Movie\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

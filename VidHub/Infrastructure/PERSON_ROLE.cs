@@ -12,20 +12,15 @@ namespace VidHub.Infrastructure
     using System;
     using System.Collections.Generic;
     
-    public partial class MOVIE
+    public partial class PERSON_ROLE
     {
-        public MOVIE()
-        {
-            this.MOVIE_LINK = new HashSet<MOVIE_LINK>();
-            this.PERSON_ROLE = new HashSet<PERSON_ROLE>();
-        }
+        public int PERSON_ROLE_ID { get; set; }
+        public int PERSON_ID { get; set; }
+        public int ROLE_ID { get; set; }
+        public Nullable<int> MOVIE_ID { get; set; }
     
-        public int MOVIE_ID { get; set; }
-        public string TITLE { get; set; }
-        public string MOVIE_POSTER_PATH { get; set; }
-        public string MOVIE_DESC { get; set; }
-    
-        public virtual ICollection<MOVIE_LINK> MOVIE_LINK { get; set; }
-        public virtual ICollection<PERSON_ROLE> PERSON_ROLE { get; set; }
+        public virtual MOVIE MOVIE { get; set; }
+        public virtual ROLE ROLE { get; set; }
+        public virtual PERSON PERSON1 { get; set; }
     }
 }

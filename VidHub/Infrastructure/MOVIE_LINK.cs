@@ -18,7 +18,9 @@ namespace VidHub.Infrastructure
         public Nullable<int> SOURCE_WEB_SITE_ID { get; set; }
         public string PATH { get; set; }
         public Nullable<int> PATH_TYPE_ID { get; set; }
-        public int ID { get; set; }
+        public Nullable<int> UP_VOTE { get; set; }
+        public Nullable<int> DOWN_VOTE { get; set; }
+        public int MOVIE_LINK_ID { get; set; }
     
         public virtual MOVIE MOVIE { get; set; }
         public virtual PATH_TYPE PATH_TYPE { get; set; }

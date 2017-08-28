@@ -20,44 +20,28 @@ namespace VidHub.Controllers
         public ActionResult MovieInfo(string MovieTitle)
         {
             MovieInfo movie = new MovieInfo(MovieTitle);
-            //Retrieve Movie Links
-            var query = from m in MovieDE.MOVIEs
-                        from l in MovieDE.MOVIE_LINK
-                        from p in MovieDE.PATH_TYPE
-                        from w in MovieDE.WEB_SITE
-                        where m.MOVIE_ID == l.MOVIE_ID
-                        where m.TITLE == MovieTitle
-                        where p.PATH_ID == l.PATH_TYPE_ID
-                        where p.PATH_TYPE1 == "Movie"
-                        where l.SOURCE_WEB_SITE_ID == w.WEB_SITE_ID
-                        select new
-                        {
-                            m.TITLE
-                            ,m.MOVIE_POSTER_PATH
-                            ,w.WEB_SITE_NAME
-                            ,l.PATH
-                        };
+            return View(movie.RetrieveMovieInfo(MovieTitle));
+        }
+        
+        public ActionResult DeleteCastMember(string Title ,int castMemberID)
+        {
+            return View("EditMovie", Title);
 
-            if (query.Any() == false)
-            {
-                movie.PosterPath = "~/Images/Default.jpg"; //Default Path
-            }
-            else
-            {
- 
-                movie.PosterPath = query.First().MOVIE_POSTER_PATH; 
-
-                foreach(var m in query)
-                {
-                    movie.MovieLinkInfo.Add(new MovieLinkInfo(m.WEB_SITE_NAME, m.PATH) );
-
-                }
-            }
-
-
-            return View(movie);
         }
 
-        
+        public ActionResult EditMovie (string MovieTitle = "Arival")
+        {
+            MovieInfo movie = new MovieInfo(MovieTitle);
+
+            return View(movie.RetrieveMovieInfo(MovieTitle));
+        }
+
+        [HttpPost]
+        public ActionResult EditMovie(MovieInfo Postedmovie)
+        {
+            Postedmovie.CreateUpdateMovie(Postedmovie);
+
+            return View("EditMovie",Postedmovie.RetrieveMovieInfo(Postedmovie.Title) );
+        }
     }
 }

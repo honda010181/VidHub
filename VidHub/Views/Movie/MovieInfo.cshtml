@@ -25,12 +25,22 @@
         @foreach (var director in @Model.Directors)
         {
             <p class="list-inline">
-                @director
+                @director.FullName
             </p>
         }
     </div> 
 </div>
- 
+<div class="row">
+    <div class="col-sm-2">
+        <p>Actors: </p>
+        @foreach (var cast in @Model.CastMembers)
+        {
+            <p class="list-inline">
+                @cast.FullName
+            </p>
+        }
+    </div>
+</div> 
 <table class="table-striped" > 
     <tr>
         @{
@@ -48,11 +58,11 @@
                 }
                 <td style="padding:50px">
                     <div class="custom-rounded-corner-cell">
-                        <a href="@Url.Content(@ml.MovieLink)" target="_blank"><img src="~/Images/PlayIcon.jpg" class="custom-play-icon" /> @ml.Website</a>
+                        <a href="@Url.Content(@ml.MovieLink)" target="_blank"><img src="~/Images/PlayIcon.jpg" class="custom-play-icon" /> @ml.SouceWebsite</a>
                     </div>
-                    <div class="btn-group-sm">
-                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-thumbs-up"></span> Like</button>
-                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-thumbs-down"></span> Not Like</button>
+                    <div class="btn-group-sm" style="text-align:center">
+                        <button type="button" class="btn btn-default" style="width:45%"><span class="glyphicon glyphicon-thumbs-up"></span> @ml.UpVote</button>
+                        <button type="button" class="btn btn-default" style="width:45%"><span class="glyphicon glyphicon-thumbs-down"></span> @ml.DownVote</button>
                     </div>
                 </td>
                 counter++;

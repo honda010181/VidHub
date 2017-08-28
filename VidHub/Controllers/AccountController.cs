@@ -108,8 +108,7 @@ namespace VidHub.Controllers
             }
 
         }
- 
- 
+         
         [Authorize]
         public ActionResult Logout()
         {

@@ -245,6 +245,15 @@
     <Compile Include="Infrastructure\PATH_TYPE.cs">
       <DependentUpon>MovieModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\PERSON.cs">
+      <DependentUpon>MovieModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\PERSON_ROLE.cs">
+      <DependentUpon>MovieModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\ROLE.cs">
+      <DependentUpon>MovieModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\WEB_SITE.cs">
       <DependentUpon>MovieModel.tt</DependentUpon>
     </Compile>
@@ -267,6 +276,8 @@
     <Content Include="Views\RoleAdmin\Edit.cshtml" />
     <Content Include="Views\Shared\Login.cshtml" />
     <Content Include="Views\Movie\MovieInfo.cshtml" />
+    <Content Include="Views\Shared\_AccountOption.cshtml" />
+    <Content Include="Views\Movie\EditMovie.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

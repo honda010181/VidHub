@@ -5,13 +5,19 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="89cda03d1db342dda981fdd017c1bfa8" Name="Diagram1">
-        <EntityTypeShape EntityType="IdentityDbModel.MOVIE" Width="1.5" PointX="1.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="IdentityDbModel.PATH_TYPE" Width="1.5" PointX="10.125" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="IdentityDbModel.WEB_SITE" Width="1.5" PointX="1.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="IdentityDbModel.MOVIE_LINK" Width="1.5" PointX="6.625" PointY="1.875" />
+        <EntityTypeShape EntityType="IdentityDbModel.MOVIE" Width="1.5" PointX="7.875" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IdentityDbModel.PATH_TYPE" Width="1.5" PointX="11.625" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="IdentityDbModel.WEB_SITE" Width="1.5" PointX="9.625" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IdentityDbModel.MOVIE_LINK" Width="1.5" PointX="9.375" PointY="4" />
         <AssociationConnector Association="IdentityDbModel.PK_MOVIE_LINK_TO_MOVIE" />
         <AssociationConnector Association="IdentityDbModel.PK_MOVIE_LINK_TO_PATH_TYPE" />
         <AssociationConnector Association="IdentityDbModel.PK_MOVIE_LINK_TO_WEB_SITE" />
+        <EntityTypeShape EntityType="IdentityDbModel.PERSON" Width="1.5" PointX="1.375" PointY="1.375" />
+        <EntityTypeShape EntityType="IdentityDbModel.PERSON_ROLE" Width="1.5" PointX="5.625" PointY="3.875" />
+        <EntityTypeShape EntityType="IdentityDbModel.ROLE" Width="1.5" PointX="1" PointY="6.375" />
+        <AssociationConnector Association="IdentityDbModel.FK_PERSON_ROLE_TO_MOVIE" />
+        <AssociationConnector Association="IdentityDbModel.FK_PERSON_ROLE_TO_ROLE" />
+        <AssociationConnector Association="IdentityDbModel.FK_PERSON_ROLE_TO_PERSON1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

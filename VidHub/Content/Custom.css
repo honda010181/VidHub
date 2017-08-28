@@ -52,3 +52,47 @@ padding-top:50px;
     text-align:center;
     padding-top:10px;
 }
+
+.custom-modal-size{
+    width:500px;
+    height:350px;
+}
+.custom-textbox{
+    width:250px;
+}
+
+.custom-textarea{
+    width:550px;
+}
+
+.custom-movie-edit{
+    border:thin;
+    border-color:black;
+    padding:10px;
+
+}
+.custom-movie-edit:hover{
+    background-color:#a7d1fa;
+    color:darkblue;
+    font:bold;
+}
+
+.custom-label{
+    font:normal
+}
+
+.custom-form-inline{
+    padding:10px;
+}
+
+.custom-form-inline:hover{
+    background-color:#a7d1fa;
+    color:darkblue;
+    font:bold;
+}
+.custom-movielink-textbox{
+    width:90%;
+}
+.custom-updownvote-textbox{
+    width:10%;
+}

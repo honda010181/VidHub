@@ -12,16 +12,19 @@
           <Property Name="MOVIE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TITLE" Type="nvarchar" MaxLength="255" />
           <Property Name="MOVIE_POSTER_PATH" Type="nvarchar" MaxLength="255" />
+          <Property Name="MOVIE_DESC" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="MOVIE_LINK">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="MOVIE_LINK_ID" />
           </Key>
+          <Property Name="MOVIE_LINK_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MOVIE_ID" Type="int" />
           <Property Name="SOURCE_WEB_SITE_ID" Type="int" />
           <Property Name="PATH" Type="nvarchar" MaxLength="500" />
           <Property Name="PATH_TYPE_ID" Type="int" />
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UP_VOTE" Type="int" />
+          <Property Name="DOWN_VOTE" Type="int" />
         </EntityType>
         <EntityType Name="PATH_TYPE">
           <Key>
@@ -29,6 +32,31 @@
           </Key>
           <Property Name="PATH_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PATH_TYPE" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="PERSON">
+          <Key>
+            <PropertyRef Name="PERSON_ID" />
+          </Key>
+          <Property Name="PERSON_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LAST_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MIDDLE_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FIRST_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PERSON_ROLE">
+          <Key>
+            <PropertyRef Name="PERSON_ROLE_ID" />
+          </Key>
+          <Property Name="PERSON_ROLE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PERSON_ID" Type="int" Nullable="false" />
+          <Property Name="ROLE_ID" Type="int" Nullable="false" />
+          <Property Name="MOVIE_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="ROLE">
+          <Key>
+            <PropertyRef Name="ROLE_ID" />
+          </Key>
+          <Property Name="ROLE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ROLE_NAME" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="WEB_SITE">
           <Key>
@@ -38,6 +66,42 @@
           <Property Name="WEB_SITE_NAME" Type="nvarchar" MaxLength="255" />
           <Property Name="WEB_URL" Type="nvarchar" MaxLength="255" />
         </EntityType>
+        <Association Name="FK_PERSON_ROLE_TO_MOVIE">
+          <End Role="MOVIE" Type="Self.MOVIE" Multiplicity="0..1" />
+          <End Role="PERSON_ROLE" Type="Self.PERSON_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MOVIE">
+              <PropertyRef Name="MOVIE_ID" />
+            </Principal>
+            <Dependent Role="PERSON_ROLE">
+              <PropertyRef Name="MOVIE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSON_ROLE_TO_PERSON">
+          <End Role="PERSON" Type="Self.PERSON" Multiplicity="1" />
+          <End Role="PERSON_ROLE" Type="Self.PERSON_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="PERSON_ID" />
+            </Principal>
+            <Dependent Role="PERSON_ROLE">
+              <PropertyRef Name="PERSON_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSON_ROLE_TO_ROLE">
+          <End Role="ROLE" Type="Self.ROLE" Multiplicity="1" />
+          <End Role="PERSON_ROLE" Type="Self.PERSON_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Principal>
+            <Dependent Role="PERSON_ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="PK_MOVIE_LINK_TO_MOVIE">
           <End Role="MOVIE" Type="Self.MOVIE" Multiplicity="0..1" />
           <End Role="MOVIE_LINK" Type="Self.MOVIE_LINK" Multiplicity="*" />
@@ -78,7 +142,22 @@
           <EntitySet Name="MOVIE" EntityType="Self.MOVIE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MOVIE_LINK" EntityType="Self.MOVIE_LINK" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PATH_TYPE" EntityType="Self.PATH_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERSON" EntityType="Self.PERSON" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERSON_ROLE" EntityType="Self.PERSON_ROLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROLE" EntityType="Self.ROLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WEB_SITE" EntityType="Self.WEB_SITE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PERSON_ROLE_TO_MOVIE" Association="Self.FK_PERSON_ROLE_TO_MOVIE">
+            <End Role="MOVIE" EntitySet="MOVIE" />
+            <End Role="PERSON_ROLE" EntitySet="PERSON_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSON_ROLE_TO_PERSON" Association="Self.FK_PERSON_ROLE_TO_PERSON">
+            <End Role="PERSON" EntitySet="PERSON" />
+            <End Role="PERSON_ROLE" EntitySet="PERSON_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSON_ROLE_TO_ROLE" Association="Self.FK_PERSON_ROLE_TO_ROLE">
+            <End Role="ROLE" EntitySet="ROLE" />
+            <End Role="PERSON_ROLE" EntitySet="PERSON_ROLE" />
+          </AssociationSet>
           <AssociationSet Name="PK_MOVIE_LINK_TO_MOVIE" Association="Self.PK_MOVIE_LINK_TO_MOVIE">
             <End Role="MOVIE" EntitySet="MOVIE" />
             <End Role="MOVIE_LINK" EntitySet="MOVIE_LINK" />
@@ -104,6 +183,8 @@
           <Property Name="TITLE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MOVIE_LINK" Relationship="IdentityDbModel.PK_MOVIE_LINK_TO_MOVIE" FromRole="MOVIE" ToRole="MOVIE_LINK" />
           <Property Name="MOVIE_POSTER_PATH" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MOVIE_DESC" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PERSON_ROLE" Relationship="IdentityDbModel.FK_PERSON_ROLE_TO_MOVIE" FromRole="MOVIE" ToRole="PERSON_ROLE" />
         </EntityType>
         <EntityType Name="PATH_TYPE">
           <Key>
@@ -139,19 +220,36 @@
             <End Role="WEB_SITE" EntitySet="WEB_SITE" />
             <End Role="MOVIE_LINK" EntitySet="MOVIE_LINK" />
           </AssociationSet>
+          <EntitySet Name="People" EntityType="IdentityDbModel.PERSON" />
+          <EntitySet Name="PERSON_ROLE" EntityType="IdentityDbModel.PERSON_ROLE" />
+          <EntitySet Name="ROLEs" EntityType="IdentityDbModel.ROLE" />
+          <AssociationSet Name="FK_PERSON_ROLE_TO_MOVIE" Association="IdentityDbModel.FK_PERSON_ROLE_TO_MOVIE">
+            <End Role="MOVIE" EntitySet="MOVIEs" />
+            <End Role="PERSON_ROLE" EntitySet="PERSON_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSON_ROLE_TO_ROLE" Association="IdentityDbModel.FK_PERSON_ROLE_TO_ROLE">
+            <End Role="ROLE" EntitySet="ROLEs" />
+            <End Role="PERSON_ROLE" EntitySet="PERSON_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSON_ROLE_TO_PERSON1" Association="IdentityDbModel.FK_PERSON_ROLE_TO_PERSON1">
+            <End Role="PERSON" EntitySet="People" />
+            <End Role="PERSON_ROLE" EntitySet="PERSON_ROLE" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="MOVIE_LINK">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="MOVIE_LINK_ID" />
           </Key>
           <Property Name="MOVIE_ID" Type="Int32" />
           <Property Name="SOURCE_WEB_SITE_ID" Type="Int32" />
           <Property Name="PATH" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="PATH_TYPE_ID" Type="Int32" />
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="MOVIE" Relationship="IdentityDbModel.PK_MOVIE_LINK_TO_MOVIE" FromRole="MOVIE_LINK" ToRole="MOVIE" />
           <NavigationProperty Name="PATH_TYPE" Relationship="IdentityDbModel.PK_MOVIE_LINK_TO_PATH_TYPE" FromRole="MOVIE_LINK" ToRole="PATH_TYPE" />
           <NavigationProperty Name="WEB_SITE" Relationship="IdentityDbModel.PK_MOVIE_LINK_TO_WEB_SITE" FromRole="MOVIE_LINK" ToRole="WEB_SITE" />
+          <Property Name="UP_VOTE" Type="Int32" />
+          <Property Name="DOWN_VOTE" Type="Int32" />
+          <Property Name="MOVIE_LINK_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <Association Name="PK_MOVIE_LINK_TO_MOVIE">
           <End Type="IdentityDbModel.MOVIE" Role="MOVIE" Multiplicity="0..1" />
@@ -189,6 +287,72 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PERSON">
+          <Key>
+            <PropertyRef Name="PERSON_ID" />
+          </Key>
+          <Property Name="LAST_NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MIDDLE_NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FIRST_NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PERSON_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="PERSON_ROLE1" Relationship="IdentityDbModel.FK_PERSON_ROLE_TO_PERSON1" FromRole="PERSON" ToRole="PERSON_ROLE" />
+        </EntityType>
+        <EntityType Name="PERSON_ROLE">
+          <Key>
+            <PropertyRef Name="PERSON_ROLE_ID" />
+          </Key>
+          <Property Name="PERSON_ROLE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PERSON_ID" Type="Int32" Nullable="false" />
+          <Property Name="ROLE_ID" Type="Int32" Nullable="false" />
+          <Property Name="MOVIE_ID" Type="Int32" />
+          <NavigationProperty Name="MOVIE" Relationship="IdentityDbModel.FK_PERSON_ROLE_TO_MOVIE" FromRole="PERSON_ROLE" ToRole="MOVIE" />
+          <NavigationProperty Name="ROLE" Relationship="IdentityDbModel.FK_PERSON_ROLE_TO_ROLE" FromRole="PERSON_ROLE" ToRole="ROLE" />
+          <NavigationProperty Name="PERSON1" Relationship="IdentityDbModel.FK_PERSON_ROLE_TO_PERSON1" FromRole="PERSON_ROLE" ToRole="PERSON" />
+        </EntityType>
+        <EntityType Name="ROLE">
+          <Key>
+            <PropertyRef Name="ROLE_ID" />
+          </Key>
+          <Property Name="ROLE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ROLE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PERSON_ROLE" Relationship="IdentityDbModel.FK_PERSON_ROLE_TO_ROLE" FromRole="ROLE" ToRole="PERSON_ROLE" />
+        </EntityType>
+        <Association Name="FK_PERSON_ROLE_TO_MOVIE">
+          <End Type="IdentityDbModel.MOVIE" Role="MOVIE" Multiplicity="0..1" />
+          <End Type="IdentityDbModel.PERSON_ROLE" Role="PERSON_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MOVIE">
+              <PropertyRef Name="MOVIE_ID" />
+            </Principal>
+            <Dependent Role="PERSON_ROLE">
+              <PropertyRef Name="MOVIE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSON_ROLE_TO_ROLE">
+          <End Type="IdentityDbModel.ROLE" Role="ROLE" Multiplicity="1" />
+          <End Type="IdentityDbModel.PERSON_ROLE" Role="PERSON_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Principal>
+            <Dependent Role="PERSON_ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSON_ROLE_TO_PERSON1">
+          <End Type="IdentityDbModel.PERSON" Role="PERSON" Multiplicity="1" />
+          <End Type="IdentityDbModel.PERSON_ROLE" Role="PERSON_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="PERSON_ID" />
+            </Principal>
+            <Dependent Role="PERSON_ROLE">
+              <PropertyRef Name="PERSON_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -198,6 +362,7 @@
           <EntitySetMapping Name="MOVIEs">
             <EntityTypeMapping TypeName="IdentityDbModel.MOVIE">
               <MappingFragment StoreEntitySet="MOVIE">
+                <ScalarProperty Name="MOVIE_DESC" ColumnName="MOVIE_DESC" />
                 <ScalarProperty Name="MOVIE_POSTER_PATH" ColumnName="MOVIE_POSTER_PATH" />
                 <ScalarProperty Name="MOVIE_ID" ColumnName="MOVIE_ID" />
                 <ScalarProperty Name="TITLE" ColumnName="TITLE" />
@@ -224,11 +389,41 @@
           <EntitySetMapping Name="MOVIE_LINK">
             <EntityTypeMapping TypeName="IdentityDbModel.MOVIE_LINK">
               <MappingFragment StoreEntitySet="MOVIE_LINK">
-                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MOVIE_LINK_ID" ColumnName="MOVIE_LINK_ID" />
+                <ScalarProperty Name="DOWN_VOTE" ColumnName="DOWN_VOTE" />
+                <ScalarProperty Name="UP_VOTE" ColumnName="UP_VOTE" />
                 <ScalarProperty Name="PATH_TYPE_ID" ColumnName="PATH_TYPE_ID" />
                 <ScalarProperty Name="PATH" ColumnName="PATH" />
                 <ScalarProperty Name="SOURCE_WEB_SITE_ID" ColumnName="SOURCE_WEB_SITE_ID" />
                 <ScalarProperty Name="MOVIE_ID" ColumnName="MOVIE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="IdentityDbModel.PERSON">
+              <MappingFragment StoreEntitySet="PERSON">
+                <ScalarProperty Name="PERSON_ID" ColumnName="PERSON_ID" />
+                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
+                <ScalarProperty Name="MIDDLE_NAME" ColumnName="MIDDLE_NAME" />
+                <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERSON_ROLE">
+            <EntityTypeMapping TypeName="IdentityDbModel.PERSON_ROLE">
+              <MappingFragment StoreEntitySet="PERSON_ROLE">
+                <ScalarProperty Name="MOVIE_ID" ColumnName="MOVIE_ID" />
+                <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
+                <ScalarProperty Name="PERSON_ID" ColumnName="PERSON_ID" />
+                <ScalarProperty Name="PERSON_ROLE_ID" ColumnName="PERSON_ROLE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROLEs">
+            <EntityTypeMapping TypeName="IdentityDbModel.ROLE">
+              <MappingFragment StoreEntitySet="ROLE">
+                <ScalarProperty Name="ROLE_NAME" ColumnName="ROLE_NAME" />
+                <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -29,5 +29,8 @@ namespace VidHub.Infrastructure
         public virtual DbSet<PATH_TYPE> PATH_TYPE { get; set; }
         public virtual DbSet<WEB_SITE> WEB_SITE { get; set; }
         public virtual DbSet<MOVIE_LINK> MOVIE_LINK { get; set; }
+        public virtual DbSet<PERSON> People { get; set; }
+        public virtual DbSet<PERSON_ROLE> PERSON_ROLE { get; set; }
+        public virtual DbSet<ROLE> ROLEs { get; set; }
     }
 }

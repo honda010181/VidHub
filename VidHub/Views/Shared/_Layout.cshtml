@@ -25,6 +25,12 @@
                         <span class="icon-bar"></span>
                     </button>
                     @Html.ActionLink("Vid Hub", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.ActionLink("Edit Movie", "EditMovie", "Movie", new { area = "" }, new { @class = "navbar-brand" })
+
+                    }
+                    @Html.ActionLink("Edit Movie", "EditMovie", "Movie", new { area = "" }, new { @class = "navbar-brand" })
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav"></ul>
@@ -49,6 +55,11 @@
     </div>
  
     <div class="row  custom-body-padding ">
+        @if (User.Identity.IsAuthenticated)
+        {
+
+
+        }
         <div class="col-sm-9">
                 @RenderBody()
         </div>
@@ -56,13 +67,7 @@
             <div id="logIn">
                 @*need to add ViewDataDicitonay() becuase cannot pass null object into strongly typed view. It's just there to avoid error*@
                 @*@Html.Partial("Login", new ViewDataDictionary());*@ 
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <p>
-                        Authenticated User
-                    </p>
-                }
-                else
+                @if (!User.Identity.IsAuthenticated)
                 {
                     <label style="color:red">
                         @ViewBag.InvalidLoginInfo

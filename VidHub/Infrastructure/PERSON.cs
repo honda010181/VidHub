@@ -23,6 +23,8 @@ namespace VidHub.Infrastructure
         public string MIDDLE_NAME { get; set; }
         public string FIRST_NAME { get; set; }
         public int PERSON_ID { get; set; }
+        public string LAST_MOD_USER_ID { get; set; }
+        public Nullable<System.DateTime> LAST_MOD_DATE { get; set; }
     
         public virtual ICollection<PERSON_ROLE> PERSON_ROLE1 { get; set; }
     }

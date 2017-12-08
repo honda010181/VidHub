@@ -1,0 +1,4 @@
+﻿1 - Add validation for input form
+2 - Before Delete open Confirm Dialog
+3 - Search Movie
+4 - User register

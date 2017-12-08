@@ -163,6 +163,7 @@
     <Content Include="Images\TheMagnificient7.jpg" />
     <Content Include="Images\ThePunisher.jpg" />
     <Content Include="Images\UnderWorld.jpg" />
+    <Content Include="Images\WebsiteImages\Search.png" />
     <Content Include="Infrastructure\MovieModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MovieModel.edmx</DependentUpon>
@@ -195,6 +196,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Todo List.txt" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -220,6 +222,9 @@
     <Compile Include="Infrastructure\AppRoleManager.cs" />
     <Compile Include="Infrastructure\AppUserManager.cs" />
     <Compile Include="Infrastructure\CustomPasswordValidator.cs" />
+    <Compile Include="Infrastructure\GENRE.cs">
+      <DependentUpon>MovieModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\IdentityHelpers.cs" />
     <Compile Include="Infrastructure\MOVIE.cs">
       <DependentUpon>MovieModel.tt</DependentUpon>
@@ -238,6 +243,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MovieModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\MOVIE_GENRE.cs">
+      <DependentUpon>MovieModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\MOVIE_LINK.cs">
       <DependentUpon>MovieModel.tt</DependentUpon>

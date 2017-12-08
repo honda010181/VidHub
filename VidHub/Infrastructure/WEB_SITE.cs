@@ -22,6 +22,8 @@ namespace VidHub.Infrastructure
         public int WEB_SITE_ID { get; set; }
         public string WEB_SITE_NAME { get; set; }
         public string WEB_URL { get; set; }
+        public string LAST_MOD_USER_ID { get; set; }
+        public Nullable<System.DateTime> LAST_MOD_DATE { get; set; }
     
         public virtual ICollection<MOVIE_LINK> MOVIE_LINK { get; set; }
     }

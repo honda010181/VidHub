@@ -11,35 +11,73 @@
         <img src="@Url.Content(@Model.PosterPath)" alt="IMAGES" class="custom-image-size custom-image-cell" data-html="true" data-toggle="custom-tooltip" data-placement="right" />
     </div>
 </div>
-
+@*For Some reason this block below does not work. IT throws "The Role Manager feature has not been enabled."*@
+@*@if (Roles.IsUserInRole("Administrators"))
+    {
+        <button class="btn btn-info" onclick="location.href = '@Url.Action("EditMovie", "Movie", new { @MovieTitle = Model.Title })'">Edit</button>
+    }*@
+@if (@User.IsInRole("Administrators"))
+{
+    <div class="row">
+        <button class="btn btn-info" onclick="location.href = '@Url.Action("EditMovie", "Movie", new { @MovieTitle = Model.Title })'">
+            Edit
+        </button>
+    </div>
+}
+ 
 
 <div class="row"> 
-    <div class="col-sm-2">
         <p>Descriptions: </p>
-    </div>
+        @Model.Descriptions
 </div>
 
+<div class="row">
+    <span>Genre: </span>
+    @foreach (var genre in @Model.Genres)
+    {
+        if (genre.GenreDesc.Length > 0)
+        {
+            <span class="list-inline custom-person-name">
+                @genre.GenreDesc
+            </span>
+            <span>
+                &nbsp &nbsp
+            </span>
+        }
+    }
+</div>
+
+
 <div class="row"> 
-    <div class="col-sm-2">
-        <p>Director: </p>
+        <span>Director: </span>
         @foreach (var director in @Model.Directors)
         {
-            <p class="list-inline">
-                @director.FullName
-            </p>
+            if(director.FullName.Length>0)
+            {
+                <span class="list-inline custom-person-name">
+                    @director.FullName
+                </span>
+                <span>
+                    &nbsp &nbsp
+                </span>
+            }
+
         }
-    </div> 
 </div>
 <div class="row">
-    <div class="col-sm-2">
-        <p>Actors: </p>
+        <span>Actors: </span>
         @foreach (var cast in @Model.CastMembers)
         {
-            <p class="list-inline">
-                @cast.FullName
-            </p>
+            if (cast.FullName.Length > 0)
+            {
+                <span class="list-inline custom-person-name">
+                    @cast.FullName
+                </span>
+                <span>
+                    &nbsp &nbsp
+                </span>
+            }
         }
-    </div>
 </div> 
 <table class="table-striped" > 
     <tr>

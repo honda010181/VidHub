@@ -17,15 +17,19 @@ namespace VidHub.Infrastructure
         public MOVIE()
         {
             this.MOVIE_LINK = new HashSet<MOVIE_LINK>();
-            this.PERSON_ROLE = new HashSet<PERSON_ROLE>();
+            this.MOVIE_GENRE = new HashSet<MOVIE_GENRE>();
+            this.PERSON_ROLE1 = new HashSet<PERSON_ROLE>();
         }
     
         public int MOVIE_ID { get; set; }
         public string TITLE { get; set; }
         public string MOVIE_POSTER_PATH { get; set; }
         public string MOVIE_DESC { get; set; }
+        public string LAST_MOD_USER_ID { get; set; }
+        public Nullable<System.DateTime> LAST_MOD_DATE { get; set; }
     
         public virtual ICollection<MOVIE_LINK> MOVIE_LINK { get; set; }
-        public virtual ICollection<PERSON_ROLE> PERSON_ROLE { get; set; }
+        public virtual ICollection<MOVIE_GENRE> MOVIE_GENRE { get; set; }
+        public virtual ICollection<PERSON_ROLE> PERSON_ROLE1 { get; set; }
     }
 }

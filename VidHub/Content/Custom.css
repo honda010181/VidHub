@@ -96,3 +96,13 @@ padding-top:50px;
 .custom-updownvote-textbox{
     width:10%;
 }
+.custom-person-name {
+    color:#91b4fa;
+    text-decoration:underline;
+}
+.custom-person-name:hover{
+    font:bold;
+    color:blue;
+    text-decoration:none;
+}
+

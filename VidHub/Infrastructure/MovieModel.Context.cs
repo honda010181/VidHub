@@ -32,5 +32,7 @@ namespace VidHub.Infrastructure
         public virtual DbSet<PERSON> People { get; set; }
         public virtual DbSet<PERSON_ROLE> PERSON_ROLE { get; set; }
         public virtual DbSet<ROLE> ROLEs { get; set; }
+        public virtual DbSet<GENRE> GENREs { get; set; }
+        public virtual DbSet<MOVIE_GENRE> MOVIE_GENRE { get; set; }
     }
 }

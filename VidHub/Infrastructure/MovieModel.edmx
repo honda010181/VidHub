@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="IdentityDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="GENRE">
+          <Key>
+            <PropertyRef Name="GENRE_ID" />
+          </Key>
+          <Property Name="GENRE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GENRE_CD" Type="nvarchar" MaxLength="3" />
+          <Property Name="GENRE_DESC" Type="nvarchar" MaxLength="30" />
+          <Property Name="LAST_MOD_USER_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="LAST_MOD_DATE" Type="datetime" />
+        </EntityType>
         <EntityType Name="MOVIE">
           <Key>
             <PropertyRef Name="MOVIE_ID" />
@@ -13,6 +23,18 @@
           <Property Name="TITLE" Type="nvarchar" MaxLength="255" />
           <Property Name="MOVIE_POSTER_PATH" Type="nvarchar" MaxLength="255" />
           <Property Name="MOVIE_DESC" Type="nvarchar" MaxLength="1000" />
+          <Property Name="LAST_MOD_USER_ID" Type="nvarchar" MaxLength="30" />
+          <Property Name="LAST_MOD_DATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MOVIE_GENRE">
+          <Key>
+            <PropertyRef Name="MOVIE_GENRE_ID" />
+          </Key>
+          <Property Name="MOVIE_GENRE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MOVIE_ID" Type="int" />
+          <Property Name="GENRE_ID" Type="int" />
+          <Property Name="LAST_MOD_USER_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="LAST_MOD_DATE" Type="datetime" />
         </EntityType>
         <EntityType Name="MOVIE_LINK">
           <Key>
@@ -25,6 +47,8 @@
           <Property Name="PATH_TYPE_ID" Type="int" />
           <Property Name="UP_VOTE" Type="int" />
           <Property Name="DOWN_VOTE" Type="int" />
+          <Property Name="LAST_MOD_USER_ID" Type="nvarchar" MaxLength="30" />
+          <Property Name="LAST_MOD_DATE" Type="datetime" />
         </EntityType>
         <EntityType Name="PATH_TYPE">
           <Key>
@@ -41,6 +65,8 @@
           <Property Name="LAST_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="MIDDLE_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="FIRST_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LAST_MOD_USER_ID" Type="nvarchar" MaxLength="30" />
+          <Property Name="LAST_MOD_DATE" Type="datetime" />
         </EntityType>
         <EntityType Name="PERSON_ROLE">
           <Key>
@@ -49,7 +75,9 @@
           <Property Name="PERSON_ROLE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PERSON_ID" Type="int" Nullable="false" />
           <Property Name="ROLE_ID" Type="int" Nullable="false" />
-          <Property Name="MOVIE_ID" Type="int" />
+          <Property Name="LAST_MOD_USER_ID" Type="nvarchar" MaxLength="30" />
+          <Property Name="LAST_MOD_DATE" Type="datetime" />
+          <Property Name="MOVIE_ID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ROLE">
           <Key>
@@ -65,9 +93,35 @@
           <Property Name="WEB_SITE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="WEB_SITE_NAME" Type="nvarchar" MaxLength="255" />
           <Property Name="WEB_URL" Type="nvarchar" MaxLength="255" />
+          <Property Name="LAST_MOD_USER_ID" Type="nvarchar" MaxLength="30" />
+          <Property Name="LAST_MOD_DATE" Type="datetime" />
         </EntityType>
-        <Association Name="FK_PERSON_ROLE_TO_MOVIE">
+        <Association Name="FK__MOVIE_GEN__GENRE__2180FB33">
+          <End Role="GENRE" Type="Self.GENRE" Multiplicity="0..1" />
+          <End Role="MOVIE_GENRE" Type="Self.MOVIE_GENRE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GENRE">
+              <PropertyRef Name="GENRE_ID" />
+            </Principal>
+            <Dependent Role="MOVIE_GENRE">
+              <PropertyRef Name="GENRE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MOVIE_GEN__MOVIE__208CD6FA">
           <End Role="MOVIE" Type="Self.MOVIE" Multiplicity="0..1" />
+          <End Role="MOVIE_GENRE" Type="Self.MOVIE_GENRE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MOVIE">
+              <PropertyRef Name="MOVIE_ID" />
+            </Principal>
+            <Dependent Role="MOVIE_GENRE">
+              <PropertyRef Name="MOVIE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSON_ROLE_TO_MOVIE">
+          <End Role="MOVIE" Type="Self.MOVIE" Multiplicity="1" />
           <End Role="PERSON_ROLE" Type="Self.PERSON_ROLE" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MOVIE">
@@ -139,13 +193,23 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="IdentityDbModelStoreContainer">
+          <EntitySet Name="GENRE" EntityType="Self.GENRE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MOVIE" EntityType="Self.MOVIE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MOVIE_GENRE" EntityType="Self.MOVIE_GENRE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MOVIE_LINK" EntityType="Self.MOVIE_LINK" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PATH_TYPE" EntityType="Self.PATH_TYPE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSON" EntityType="Self.PERSON" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSON_ROLE" EntityType="Self.PERSON_ROLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ROLE" EntityType="Self.ROLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WEB_SITE" EntityType="Self.WEB_SITE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__MOVIE_GEN__GENRE__2180FB33" Association="Self.FK__MOVIE_GEN__GENRE__2180FB33">
+            <End Role="GENRE" EntitySet="GENRE" />
+            <End Role="MOVIE_GENRE" EntitySet="MOVIE_GENRE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MOVIE_GEN__MOVIE__208CD6FA" Association="Self.FK__MOVIE_GEN__MOVIE__208CD6FA">
+            <End Role="MOVIE" EntitySet="MOVIE" />
+            <End Role="MOVIE_GENRE" EntitySet="MOVIE_GENRE" />
+          </AssociationSet>
           <AssociationSet Name="FK_PERSON_ROLE_TO_MOVIE" Association="Self.FK_PERSON_ROLE_TO_MOVIE">
             <End Role="MOVIE" EntitySet="MOVIE" />
             <End Role="PERSON_ROLE" EntitySet="PERSON_ROLE" />
@@ -184,7 +248,10 @@
           <NavigationProperty Name="MOVIE_LINK" Relationship="IdentityDbModel.PK_MOVIE_LINK_TO_MOVIE" FromRole="MOVIE" ToRole="MOVIE_LINK" />
           <Property Name="MOVIE_POSTER_PATH" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="MOVIE_DESC" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PERSON_ROLE" Relationship="IdentityDbModel.FK_PERSON_ROLE_TO_MOVIE" FromRole="MOVIE" ToRole="PERSON_ROLE" />
+          <NavigationProperty Name="MOVIE_GENRE" Relationship="IdentityDbModel.FK__MOVIE_GEN__MOVIE__08B54D69" FromRole="MOVIE" ToRole="MOVIE_GENRE" />
+          <Property Name="LAST_MOD_USER_ID" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="LAST_MOD_DATE" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="PERSON_ROLE1" Relationship="IdentityDbModel.FK_PERSON_ROLE_TO_MOVIE1" FromRole="MOVIE" ToRole="PERSON_ROLE" />
         </EntityType>
         <EntityType Name="PATH_TYPE">
           <Key>
@@ -202,6 +269,8 @@
           <Property Name="WEB_SITE_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="WEB_URL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MOVIE_LINK" Relationship="IdentityDbModel.PK_MOVIE_LINK_TO_WEB_SITE" FromRole="WEB_SITE" ToRole="MOVIE_LINK" />
+          <Property Name="LAST_MOD_USER_ID" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="LAST_MOD_DATE" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityContainer Name="MovieDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="MOVIEs" EntityType="Self.MOVIE" />
@@ -223,16 +292,26 @@
           <EntitySet Name="People" EntityType="IdentityDbModel.PERSON" />
           <EntitySet Name="PERSON_ROLE" EntityType="IdentityDbModel.PERSON_ROLE" />
           <EntitySet Name="ROLEs" EntityType="IdentityDbModel.ROLE" />
-          <AssociationSet Name="FK_PERSON_ROLE_TO_MOVIE" Association="IdentityDbModel.FK_PERSON_ROLE_TO_MOVIE">
-            <End Role="MOVIE" EntitySet="MOVIEs" />
-            <End Role="PERSON_ROLE" EntitySet="PERSON_ROLE" />
-          </AssociationSet>
           <AssociationSet Name="FK_PERSON_ROLE_TO_ROLE" Association="IdentityDbModel.FK_PERSON_ROLE_TO_ROLE">
             <End Role="ROLE" EntitySet="ROLEs" />
             <End Role="PERSON_ROLE" EntitySet="PERSON_ROLE" />
           </AssociationSet>
           <AssociationSet Name="FK_PERSON_ROLE_TO_PERSON1" Association="IdentityDbModel.FK_PERSON_ROLE_TO_PERSON1">
             <End Role="PERSON" EntitySet="People" />
+            <End Role="PERSON_ROLE" EntitySet="PERSON_ROLE" />
+          </AssociationSet>
+          <EntitySet Name="GENREs" EntityType="IdentityDbModel.GENRE" />
+          <EntitySet Name="MOVIE_GENRE" EntityType="IdentityDbModel.MOVIE_GENRE" />
+          <AssociationSet Name="FK__MOVIE_GEN__GENRE__09A971A2" Association="IdentityDbModel.FK__MOVIE_GEN__GENRE__09A971A2">
+            <End Role="GENRE" EntitySet="GENREs" />
+            <End Role="MOVIE_GENRE" EntitySet="MOVIE_GENRE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MOVIE_GEN__MOVIE__08B54D69" Association="IdentityDbModel.FK__MOVIE_GEN__MOVIE__08B54D69">
+            <End Role="MOVIE" EntitySet="MOVIEs" />
+            <End Role="MOVIE_GENRE" EntitySet="MOVIE_GENRE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSON_ROLE_TO_MOVIE1" Association="IdentityDbModel.FK_PERSON_ROLE_TO_MOVIE1">
+            <End Role="MOVIE" EntitySet="MOVIEs" />
             <End Role="PERSON_ROLE" EntitySet="PERSON_ROLE" />
           </AssociationSet>
         </EntityContainer>
@@ -250,6 +329,8 @@
           <Property Name="UP_VOTE" Type="Int32" />
           <Property Name="DOWN_VOTE" Type="Int32" />
           <Property Name="MOVIE_LINK_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LAST_MOD_USER_ID" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="LAST_MOD_DATE" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="PK_MOVIE_LINK_TO_MOVIE">
           <End Type="IdentityDbModel.MOVIE" Role="MOVIE" Multiplicity="0..1" />
@@ -296,6 +377,8 @@
           <Property Name="FIRST_NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PERSON_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="PERSON_ROLE1" Relationship="IdentityDbModel.FK_PERSON_ROLE_TO_PERSON1" FromRole="PERSON" ToRole="PERSON_ROLE" />
+          <Property Name="LAST_MOD_USER_ID" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="LAST_MOD_DATE" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="PERSON_ROLE">
           <Key>
@@ -304,10 +387,12 @@
           <Property Name="PERSON_ROLE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PERSON_ID" Type="Int32" Nullable="false" />
           <Property Name="ROLE_ID" Type="Int32" Nullable="false" />
-          <Property Name="MOVIE_ID" Type="Int32" />
-          <NavigationProperty Name="MOVIE" Relationship="IdentityDbModel.FK_PERSON_ROLE_TO_MOVIE" FromRole="PERSON_ROLE" ToRole="MOVIE" />
           <NavigationProperty Name="ROLE" Relationship="IdentityDbModel.FK_PERSON_ROLE_TO_ROLE" FromRole="PERSON_ROLE" ToRole="ROLE" />
           <NavigationProperty Name="PERSON1" Relationship="IdentityDbModel.FK_PERSON_ROLE_TO_PERSON1" FromRole="PERSON_ROLE" ToRole="PERSON" />
+          <Property Name="LAST_MOD_USER_ID" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="LAST_MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="MOVIE_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MOVIE1" Relationship="IdentityDbModel.FK_PERSON_ROLE_TO_MOVIE1" FromRole="PERSON_ROLE" ToRole="MOVIE" />
         </EntityType>
         <EntityType Name="ROLE">
           <Key>
@@ -317,18 +402,6 @@
           <Property Name="ROLE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PERSON_ROLE" Relationship="IdentityDbModel.FK_PERSON_ROLE_TO_ROLE" FromRole="ROLE" ToRole="PERSON_ROLE" />
         </EntityType>
-        <Association Name="FK_PERSON_ROLE_TO_MOVIE">
-          <End Type="IdentityDbModel.MOVIE" Role="MOVIE" Multiplicity="0..1" />
-          <End Type="IdentityDbModel.PERSON_ROLE" Role="PERSON_ROLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MOVIE">
-              <PropertyRef Name="MOVIE_ID" />
-            </Principal>
-            <Dependent Role="PERSON_ROLE">
-              <PropertyRef Name="MOVIE_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PERSON_ROLE_TO_ROLE">
           <End Type="IdentityDbModel.ROLE" Role="ROLE" Multiplicity="1" />
           <End Type="IdentityDbModel.PERSON_ROLE" Role="PERSON_ROLE" Multiplicity="*" />
@@ -353,6 +426,65 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="GENRE">
+          <Key>
+            <PropertyRef Name="GENRE_ID" />
+          </Key>
+          <Property Name="GENRE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GENRE_CD" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="GENRE_DESC" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="LAST_MOD_USER_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LAST_MOD_DATE" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="MOVIE_GENRE" Relationship="IdentityDbModel.FK__MOVIE_GEN__GENRE__09A971A2" FromRole="GENRE" ToRole="MOVIE_GENRE" />
+        </EntityType>
+        <EntityType Name="MOVIE_GENRE">
+          <Key>
+            <PropertyRef Name="MOVIE_GENRE_ID" />
+          </Key>
+          <Property Name="MOVIE_GENRE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MOVIE_ID" Type="Int32" />
+          <Property Name="GENRE_ID" Type="Int32" />
+          <Property Name="LAST_MOD_USER_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LAST_MOD_DATE" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GENRE" Relationship="IdentityDbModel.FK__MOVIE_GEN__GENRE__09A971A2" FromRole="MOVIE_GENRE" ToRole="GENRE" />
+          <NavigationProperty Name="MOVIE" Relationship="IdentityDbModel.FK__MOVIE_GEN__MOVIE__08B54D69" FromRole="MOVIE_GENRE" ToRole="MOVIE" />
+        </EntityType>
+        <Association Name="FK__MOVIE_GEN__GENRE__09A971A2">
+          <End Type="IdentityDbModel.GENRE" Role="GENRE" Multiplicity="0..1" />
+          <End Type="IdentityDbModel.MOVIE_GENRE" Role="MOVIE_GENRE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GENRE">
+              <PropertyRef Name="GENRE_ID" />
+            </Principal>
+            <Dependent Role="MOVIE_GENRE">
+              <PropertyRef Name="GENRE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MOVIE_GEN__MOVIE__08B54D69">
+          <End Type="IdentityDbModel.MOVIE" Role="MOVIE" Multiplicity="0..1" />
+          <End Type="IdentityDbModel.MOVIE_GENRE" Role="MOVIE_GENRE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MOVIE">
+              <PropertyRef Name="MOVIE_ID" />
+            </Principal>
+            <Dependent Role="MOVIE_GENRE">
+              <PropertyRef Name="MOVIE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSON_ROLE_TO_MOVIE1">
+          <End Type="IdentityDbModel.MOVIE" Role="MOVIE" Multiplicity="1" />
+          <End Type="IdentityDbModel.PERSON_ROLE" Role="PERSON_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MOVIE">
+              <PropertyRef Name="MOVIE_ID" />
+            </Principal>
+            <Dependent Role="PERSON_ROLE">
+              <PropertyRef Name="MOVIE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -362,6 +494,8 @@
           <EntitySetMapping Name="MOVIEs">
             <EntityTypeMapping TypeName="IdentityDbModel.MOVIE">
               <MappingFragment StoreEntitySet="MOVIE">
+                <ScalarProperty Name="LAST_MOD_DATE" ColumnName="LAST_MOD_DATE" />
+                <ScalarProperty Name="LAST_MOD_USER_ID" ColumnName="LAST_MOD_USER_ID" />
                 <ScalarProperty Name="MOVIE_DESC" ColumnName="MOVIE_DESC" />
                 <ScalarProperty Name="MOVIE_POSTER_PATH" ColumnName="MOVIE_POSTER_PATH" />
                 <ScalarProperty Name="MOVIE_ID" ColumnName="MOVIE_ID" />
@@ -380,6 +514,8 @@
           <EntitySetMapping Name="WEB_SITE">
             <EntityTypeMapping TypeName="IdentityDbModel.WEB_SITE">
               <MappingFragment StoreEntitySet="WEB_SITE">
+                <ScalarProperty Name="LAST_MOD_DATE" ColumnName="LAST_MOD_DATE" />
+                <ScalarProperty Name="LAST_MOD_USER_ID" ColumnName="LAST_MOD_USER_ID" />
                 <ScalarProperty Name="WEB_SITE_ID" ColumnName="WEB_SITE_ID" />
                 <ScalarProperty Name="WEB_SITE_NAME" ColumnName="WEB_SITE_NAME" />
                 <ScalarProperty Name="WEB_URL" ColumnName="WEB_URL" />
@@ -389,6 +525,8 @@
           <EntitySetMapping Name="MOVIE_LINK">
             <EntityTypeMapping TypeName="IdentityDbModel.MOVIE_LINK">
               <MappingFragment StoreEntitySet="MOVIE_LINK">
+                <ScalarProperty Name="LAST_MOD_DATE" ColumnName="LAST_MOD_DATE" />
+                <ScalarProperty Name="LAST_MOD_USER_ID" ColumnName="LAST_MOD_USER_ID" />
                 <ScalarProperty Name="MOVIE_LINK_ID" ColumnName="MOVIE_LINK_ID" />
                 <ScalarProperty Name="DOWN_VOTE" ColumnName="DOWN_VOTE" />
                 <ScalarProperty Name="UP_VOTE" ColumnName="UP_VOTE" />
@@ -402,6 +540,8 @@
           <EntitySetMapping Name="People">
             <EntityTypeMapping TypeName="IdentityDbModel.PERSON">
               <MappingFragment StoreEntitySet="PERSON">
+                <ScalarProperty Name="LAST_MOD_DATE" ColumnName="LAST_MOD_DATE" />
+                <ScalarProperty Name="LAST_MOD_USER_ID" ColumnName="LAST_MOD_USER_ID" />
                 <ScalarProperty Name="PERSON_ID" ColumnName="PERSON_ID" />
                 <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
                 <ScalarProperty Name="MIDDLE_NAME" ColumnName="MIDDLE_NAME" />
@@ -413,6 +553,8 @@
             <EntityTypeMapping TypeName="IdentityDbModel.PERSON_ROLE">
               <MappingFragment StoreEntitySet="PERSON_ROLE">
                 <ScalarProperty Name="MOVIE_ID" ColumnName="MOVIE_ID" />
+                <ScalarProperty Name="LAST_MOD_DATE" ColumnName="LAST_MOD_DATE" />
+                <ScalarProperty Name="LAST_MOD_USER_ID" ColumnName="LAST_MOD_USER_ID" />
                 <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
                 <ScalarProperty Name="PERSON_ID" ColumnName="PERSON_ID" />
                 <ScalarProperty Name="PERSON_ROLE_ID" ColumnName="PERSON_ROLE_ID" />
@@ -427,7 +569,29 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="GENREs">
+            <EntityTypeMapping TypeName="IdentityDbModel.GENRE">
+              <MappingFragment StoreEntitySet="GENRE">
+                <ScalarProperty Name="LAST_MOD_DATE" ColumnName="LAST_MOD_DATE" />
+                <ScalarProperty Name="LAST_MOD_USER_ID" ColumnName="LAST_MOD_USER_ID" />
+                <ScalarProperty Name="GENRE_DESC" ColumnName="GENRE_DESC" />
+                <ScalarProperty Name="GENRE_CD" ColumnName="GENRE_CD" />
+                <ScalarProperty Name="GENRE_ID" ColumnName="GENRE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MOVIE_GENRE">
+            <EntityTypeMapping TypeName="IdentityDbModel.MOVIE_GENRE">
+              <MappingFragment StoreEntitySet="MOVIE_GENRE">
+                <ScalarProperty Name="LAST_MOD_DATE" ColumnName="LAST_MOD_DATE" />
+                <ScalarProperty Name="LAST_MOD_USER_ID" ColumnName="LAST_MOD_USER_ID" />
+                <ScalarProperty Name="GENRE_ID" ColumnName="GENRE_ID" />
+                <ScalarProperty Name="MOVIE_ID" ColumnName="MOVIE_ID" />
+                <ScalarProperty Name="MOVIE_GENRE_ID" ColumnName="MOVIE_GENRE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

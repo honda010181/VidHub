@@ -17,10 +17,12 @@ namespace VidHub.Infrastructure
         public int PERSON_ROLE_ID { get; set; }
         public int PERSON_ID { get; set; }
         public int ROLE_ID { get; set; }
-        public Nullable<int> MOVIE_ID { get; set; }
+        public string LAST_MOD_USER_ID { get; set; }
+        public Nullable<System.DateTime> LAST_MOD_DATE { get; set; }
+        public int MOVIE_ID { get; set; }
     
-        public virtual MOVIE MOVIE { get; set; }
         public virtual ROLE ROLE { get; set; }
         public virtual PERSON PERSON1 { get; set; }
+        public virtual MOVIE MOVIE1 { get; set; }
     }
 }

@@ -21,6 +21,8 @@ namespace VidHub.Infrastructure
         public Nullable<int> UP_VOTE { get; set; }
         public Nullable<int> DOWN_VOTE { get; set; }
         public int MOVIE_LINK_ID { get; set; }
+        public string LAST_MOD_USER_ID { get; set; }
+        public Nullable<System.DateTime> LAST_MOD_DATE { get; set; }
     
         public virtual MOVIE MOVIE { get; set; }
         public virtual PATH_TYPE PATH_TYPE { get; set; }

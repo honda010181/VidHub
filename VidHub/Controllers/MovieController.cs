@@ -94,6 +94,16 @@ namespace VidHub.Controllers
             }
             return View("EditMovie", movie.RetrieveMovieInfo(movieTitle, EditMode));
         }
+        
+        [AllowAnonymous]
+        public ActionResult SearchMovie(string movieTitle)
+        {
 
+            MovieInfo movie = new MovieInfo(movieTitle);
+            //List<MovieInfo> MovieList = movie.SearchMovie(movieTitle);
+
+            return View("SearchMovie", movie.SearchMovie(movieTitle));
+
+        }
     }
 }

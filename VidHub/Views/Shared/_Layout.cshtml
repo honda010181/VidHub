@@ -36,19 +36,6 @@
                     }
                     @Html.ActionLink("Edit Movie", "EditMovie", "Movie", new { area = "" }, new { @class = "navbar-brand" })*@
 
-                        <div class="input-append navbar-brand" style="border:none; height:25px ; padding:initial ">
-                            <input type="text" style="border:none ;height:inherit" >
-                            <button type="submit"class="btn btn-default " style="height:25px;">
-                                <img src="~/Images/WebsiteImages/Search.png" class="img-thumbnail" style=" height:50%; padding:10px" /> 
-                            </button>
-                            <button type="submit" class="btn btn-default " style="height:inherit" >
-                                <p style="padding-bottom:50px" >
-                                    Search
-                                </p>
-                            </button>
-
-                        </div>
-
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav"></ul>
@@ -56,13 +43,13 @@
             </div>
         </div>
     </div> 
+
  
     <div class="row custom-body-padding">
         <div class="container">
             @foreach (MOVIE movie in @ViewBag.FeatureMovieList)
             {
-                <div class="col-sm-1">
-                    
+                <div class="col-sm-1">                    
                     <a href="@Url.Action("MovieInfo", "Movie",new{ MovieTitle =  @Url.Content(@movie.TITLE)})" >
                         @*//To show image by looping string, the image path needs to wrap in @url.Content(@variablePath)*@
                         <img src="@Url.Content(@movie.MOVIE_POSTER_PATH)" alt="IMAGES" class="custom-image-size custom-image-cell" data-html="true" data-toggle="custom-tooltip" data-placement="right" title="@Url.Content(@movie.TITLE)" onclick="" />
@@ -72,6 +59,34 @@
         </div>
     </div>
  
+    <div id="SearchBar" class="row container" style="background-color:beige; height: 50px" >
+ 
+            <div class="input-group " style="position: inherit; padding-top:7px">
+                @*<input id="TitleToSearch" type="text" class="form-control" placeholder="Search" name="search">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit" onclick="location.href = '@Url.Action("SearchMovie", "Movie", new { @movieTitle ="ee" })'"><i class="glyphicon glyphicon-search"></i></button>
+                </div>*@
+
+                @* This is how to pass data from a form to controller without binding model *@
+                @using (Html.BeginForm("SearchMovie", "Movie", new{Class="form-control form-inline"}))
+                {
+                    <div class="row">
+                        <div class="col-sm-8">
+                            @Html.TextBox("movieTitle", "", new { Class = "form-control" } )
+                        </div>
+                        <div class="col-sm-4">
+                            <button class="btn btn-default">Search</button>
+                        </div>
+                    </div>
+
+                }
+                
+            </div>
+ 
+    </div>
+ 
+    
+     
     <div class="row  custom-body-padding ">
         @if (User.Identity.IsAuthenticated)
         {

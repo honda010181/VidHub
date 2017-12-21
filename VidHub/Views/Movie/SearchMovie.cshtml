@@ -1,0 +1,32 @@
+﻿@using VidHub.Models
+@model  VidHub.Models.MovieInfoList
+
+
+@{
+    ViewBag.Title = "SearchMovie";
+}
+
+<h2>SearchMovie</h2>
+
+@foreach (MovieInfo m in Model.MovieList)
+{
+    <div class="col-sm-1">
+        <a href="@Url.Action("MovieInfo", "Movie",new{ MovieTitle =  @Url.Content(@m.Title)})">
+            @*//To show image by looping string, the image path needs to wrap in @url.Content(@variablePath)*@
+            <img src="@Url.Content(@m.PosterPath)" alt="IMAGES" class="custom-image-size custom-image-cell" data-html="true" data-toggle="custom-tooltip" data-placement="right" title="@Url.Content(@m.Title)" onclick="" />
+        </a>
+    </div>
+
+}
+
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="custom-tooltip"]').tooltip();
+    });
+</script>

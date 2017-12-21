@@ -286,6 +286,7 @@
     <Content Include="Views\Movie\MovieInfo.cshtml" />
     <Content Include="Views\Shared\_AccountOption.cshtml" />
     <Content Include="Views\Movie\EditMovie.cshtml" />
+    <Content Include="Views\Movie\SearchMovie.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
